@@ -1,9 +1,11 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using products.Application.Services;
+using products.Application.Services_Interface;
 using Products.Domain.Repositories;
 using Products.Domain.RepositoryInterfaces;
 using Products.Modal.DataAccess;
-using System.Data.Common;
+using Products.View_Request_Modals.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +17,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<SqlServerConnection>();
+builder.Services.AddAutoMapper(typeof(MapperClass));
 builder.Services.AddScoped<IStoredProcedures, StoredProcedures>();
+builder.Services.AddScoped<IBrands, BrandsRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
 
+builder.Services.AddScoped<IBrandService, BrandService>();
 var app = builder.Build();
 
 var keyVaultUrl = builder.Configuration["KeyVault:KeyVaultURL"];

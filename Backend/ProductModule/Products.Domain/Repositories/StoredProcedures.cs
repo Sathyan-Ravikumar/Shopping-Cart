@@ -36,5 +36,28 @@ namespace Products.Domain.Repositories
                 commandType: CommandType.StoredProcedure);
             }
         }
+        public async Task<IEnumerable<T>> ExecuteStoredProcedureListAsync<T>(string storedProcedure)
+        {
+            using (var connection = _connection.CreateConnection())
+            {
+                return await connection.QueryAsync<T>(
+                    storedProcedure,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<(IEnumerable<T1>, IEnumerable<T2>)> ExecuteStoredProcedureMultiAsync<T1, T2>(string storedProcedure, DynamicParameters parameters)
+        {
+            using (var connection = _connection.CreateConnection())
+            {
+                using var multi = await connection.QueryMultipleAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+                var result1 = await multi.ReadAsync<T1>();
+                var result2 = await multi.ReadAsync<T2>();
+
+                return (result1, result2);
+            }
+        }
+
     }
 }
