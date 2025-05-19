@@ -28,5 +28,10 @@ namespace products.Application.Services
         {
             return await _productRepository.GetProductByIdAsync(productId);
         }
+        public async Task<List<AllActiveProducts>> GetAllActiveProductsAsync()
+        {
+            var result = await _productRepository.GetAllActiveProductsAsync();
+            return result.ToList(); 
+        }
     }
 }

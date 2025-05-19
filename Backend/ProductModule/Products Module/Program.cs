@@ -22,8 +22,11 @@ builder.Services.AddScoped<IStoredProcedures, StoredProcedures>();
 builder.Services.AddScoped<IBrands, BrandsRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
-
+builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IProductReviewRepository,ProductReviewsRepository>();
+builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 var app = builder.Build();
 
 var keyVaultUrl = builder.Configuration["KeyVault:KeyVaultURL"];

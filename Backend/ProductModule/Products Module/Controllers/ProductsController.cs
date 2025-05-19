@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using products.Application.Services;
 using products.Application.Services_Interface;
+using Products.View_Request_Modals.ViewModal;
 
 namespace Products_Module.Controllers
 {
@@ -33,6 +34,11 @@ namespace Products_Module.Controllers
             return Ok(product);
         }
 
-
+        [HttpGet("active")]
+        public async Task<ActionResult<List<AllActiveProducts>>> GetAllActiveProducts()
+        {
+            var products = await _productServices.GetAllActiveProductsAsync();
+            return Ok(products);
+        }
     }
 }

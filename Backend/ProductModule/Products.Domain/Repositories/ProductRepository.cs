@@ -56,7 +56,11 @@ namespace Products.Domain.Repositories
 
             return product;
         }
-
+        public async Task<IEnumerable<AllActiveProducts>> GetAllActiveProductsAsync()
+        {
+            var spName = "sp_GetAllActiveProducts";
+            return await _storedProcedure.ExecuteStoredProcedureListAsync<AllActiveProducts>(spName);
+        }
 
     }
 }
