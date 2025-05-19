@@ -40,5 +40,20 @@ namespace Products_Module.Controllers
             var products = await _productServices.GetAllActiveProductsAsync();
             return Ok(products);
         }
+
+        [HttpGet("stock/{productId}")]
+        public async Task<IActionResult> GetProductStock(int productId)
+        {
+            try
+            {
+                var stock = await _productServices.GetProductStockAsync(productId);
+                return Ok(new { ProductId = productId, StockQuantity = stock });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Error fetching stock.", Details = ex.Message });
+            }
+        }
+
     }
 }

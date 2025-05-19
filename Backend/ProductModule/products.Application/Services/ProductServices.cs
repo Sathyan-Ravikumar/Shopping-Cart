@@ -33,5 +33,10 @@ namespace products.Application.Services
             var result = await _productRepository.GetAllActiveProductsAsync();
             return result.ToList(); 
         }
+        public async Task<int> GetProductStockAsync(int productId)
+        {
+            return await _productRepository.GetProductStockAsync(productId);
+        }
+
     }
 }

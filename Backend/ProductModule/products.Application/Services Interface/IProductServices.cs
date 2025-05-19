@@ -12,5 +12,6 @@ namespace products.Application.Services_Interface
         Task<List<ProductsBySubcategory>> GetProductsBySubcategoryAsync(int subcategoryId);
         Task<ProductsByProductId> GetProductByProductIdAsync(int productId);
         Task<List<AllActiveProducts>> GetAllActiveProductsAsync();
+        Task<int> GetProductStockAsync(int productId);
     }
 }

@@ -12,5 +12,6 @@ namespace Products.Domain.RepositoryInterfaces
         Task<List<ProductsBySubcategory>> GetProductsBySubcategoryIdAsync(int subcategoryId);
         Task<ProductsByProductId> GetProductByIdAsync(int productId);
         Task<IEnumerable<AllActiveProducts>> GetAllActiveProductsAsync();
+        Task<int> GetProductStockAsync(int productId);
     }
 }

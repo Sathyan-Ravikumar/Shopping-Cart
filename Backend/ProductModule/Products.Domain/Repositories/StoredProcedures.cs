@@ -59,5 +59,17 @@ namespace Products.Domain.Repositories
             }
         }
 
+        public async Task<int> ExecuteStoredProcedureNonQueryAsync(string storedProcedure, DynamicParameters parameters)
+        {
+            using (var connection = _connection.CreateConnection())
+            {
+                return await connection.ExecuteAsync(
+                    storedProcedure,
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Products.Domain.RepositoryInterfaces;
 using Products.Modal.Modal;
+using Products.View_Request_Modals.RequestModal;
 using Products.View_Request_Modals.ViewModal;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,19 @@ namespace Products.Domain.Repositories
             var review = await _storedProcedures.ExecuteStoredProcedureListAsync<ProductReviews_ViewModal>(spName, parameter);
             return review;
         }
+
+        public async Task<bool> AddReviewAsync(AddProductReview request)
+        {
+            var spName = "sp_AddProductReview";
+            var parameters = new DynamicParameters();
+            parameters.Add("UserId", request.UserId);
+            parameters.Add("ProductId", request.ProductId);
+            parameters.Add("Rating", request.Rating);
+            parameters.Add("ReviewText", request.ReviewText);
+
+            var result = await _storedProcedures.ExecuteStoredProcedureNonQueryAsync(spName, parameters);
+            return result > 0;
+        }
+
     }
 }

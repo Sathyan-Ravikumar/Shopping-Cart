@@ -61,6 +61,13 @@ namespace Products.Domain.Repositories
             var spName = "sp_GetAllActiveProducts";
             return await _storedProcedure.ExecuteStoredProcedureListAsync<AllActiveProducts>(spName);
         }
+        public async Task<int> GetProductStockAsync(int productId)
+        {
+            var spName = "sp_GetProductStock";
+            var parameters = new DynamicParameters();
+            parameters.Add("ProductId", productId);
 
+            return await _storedProcedure.ExecuteStoredProcedureAsync<int>(spName, parameters);
+        }
     }
 }
