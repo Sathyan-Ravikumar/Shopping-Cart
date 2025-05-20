@@ -1,4 +1,5 @@
-﻿using Products.View_Request_Modals.ViewModal;
+﻿using Products.View_Request_Modals.RequestModal;
+using Products.View_Request_Modals.ViewModal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace products.Application.Services_Interface
         Task<ProductsByProductId> GetProductByProductIdAsync(int productId);
         Task<List<AllActiveProducts>> GetAllActiveProductsAsync();
         Task<int> GetProductStockAsync(int productId);
+        Task<int> AddProductAsync(AddNewProduct_RequestModal request);
     }
 }

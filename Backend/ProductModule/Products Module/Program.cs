@@ -27,14 +27,20 @@ builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IProductReviewRepository,ProductReviewsRepository>();
 builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
+builder.Services.AddScoped<IBlobService, BlobService>();
+
 var app = builder.Build();
 
 var keyVaultUrl = builder.Configuration["KeyVault:KeyVaultURL"];
 var secretClient = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
 
 var dbConnection = secretClient.GetSecret("SQLConnection").Value.Value;
+var storageAccountConnectionString = secretClient.GetSecret("StorageAccountConnectionString").Value.Value;
+var storageAccountContainerName = secretClient.GetSecret("StorageAccountContainerName").Value.Value;
 
 builder.Configuration["ConnectionStrings:SQLConnection"] = dbConnection;
+builder.Configuration["StorageAccount:ConnectionString"] = storageAccountConnectionString;
+builder.Configuration["StorageAccount:ContainerName"] = storageAccountContainerName;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

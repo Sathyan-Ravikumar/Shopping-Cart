@@ -14,5 +14,6 @@ namespace Products.Domain.RepositoryInterfaces
         Task<IEnumerable<T>> ExecuteStoredProcedureListAsync<T>(string storedProcedure);
         Task<(IEnumerable<T1>, IEnumerable<T2>)> ExecuteStoredProcedureMultiAsync<T1, T2>(string storedProcedure, DynamicParameters parameters);
         Task<int> ExecuteStoredProcedureNonQueryAsync(string storedProcedure, DynamicParameters parameters);
+        Task<T> ExecuteStoredProcedureScalarAsync<T>(string storedProcedure, DynamicParameters parameters);
     }
 }

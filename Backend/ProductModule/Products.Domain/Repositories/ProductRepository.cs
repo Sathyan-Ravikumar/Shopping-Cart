@@ -1,10 +1,12 @@
 ﻿using Dapper;
 using Products.Domain.RepositoryInterfaces;
 using Products.Modal.Modal;
+using Products.View_Request_Modals.RequestModal;
 using Products.View_Request_Modals.ViewModal;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,5 +71,37 @@ namespace Products.Domain.Repositories
 
             return await _storedProcedure.ExecuteStoredProcedureAsync<int>(spName, parameters);
         }
+
+        public async Task<int> AddProductWithImagesAsync(AddNewProduct_RequestModal request, List<(string url, bool isPrimary)> imageInfos)
+        {
+            var spName = "sp_AddProductWithImagesAndInventoryLog";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Name", request.Name);
+            parameters.Add("Description", request.Description);
+            parameters.Add("Price", request.Price);
+            parameters.Add("StockQuantity", request.StockQuantity);
+            parameters.Add("IsActive", request.IsActive);
+            parameters.Add("BrandId", request.BrandId);
+            parameters.Add("SubcategoryId", request.SubcategoryId);
+            parameters.Add("CreatedAt", DateTime.UtcNow);
+
+            var table = new DataTable();
+            table.Columns.Add("ImageUrl", typeof(string));
+            table.Columns.Add("IsPrimary", typeof(bool));
+            table.Columns.Add("CreatedAt", typeof(DateTime));
+
+            foreach (var image in imageInfos)
+            {
+                table.Rows.Add(image.url, image.isPrimary, DateTime.UtcNow);
+            }
+
+            parameters.Add("Images", table.AsTableValuedParameter("ProductImageType"));
+
+            
+            return await _storedProcedure.ExecuteStoredProcedureScalarAsync<int>(spName, parameters);
+            
+        }
+
     }
 }

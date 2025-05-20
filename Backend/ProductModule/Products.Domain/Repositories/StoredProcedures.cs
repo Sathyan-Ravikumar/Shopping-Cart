@@ -69,6 +69,14 @@ namespace Products.Domain.Repositories
                     commandType: CommandType.StoredProcedure);
             }
         }
+        public async Task<T> ExecuteStoredProcedureScalarAsync<T>(string storedProcedure, DynamicParameters parameters)
+        {
+            using (var connection = _connection.CreateConnection())
+            {
+                return await connection.ExecuteScalarAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
 
 
     }

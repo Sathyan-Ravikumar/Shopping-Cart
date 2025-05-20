@@ -1,4 +1,5 @@
-﻿using Products.View_Request_Modals.ViewModal;
+﻿using Products.View_Request_Modals.RequestModal;
+using Products.View_Request_Modals.ViewModal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace Products.Domain.RepositoryInterfaces
         Task<ProductsByProductId> GetProductByIdAsync(int productId);
         Task<IEnumerable<AllActiveProducts>> GetAllActiveProductsAsync();
         Task<int> GetProductStockAsync(int productId);
+        Task<int> AddProductWithImagesAsync(AddNewProduct_RequestModal request, List<(string url, bool isPrimary)> imageInfos);
     }
 }

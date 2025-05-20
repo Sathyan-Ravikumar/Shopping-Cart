@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using products.Application.Services;
 using products.Application.Services_Interface;
+using Products.View_Request_Modals.RequestModal;
 using Products.View_Request_Modals.ViewModal;
 
 namespace Products_Module.Controllers
@@ -52,6 +54,23 @@ namespace Products_Module.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { Message = "Error fetching stock.", Details = ex.Message });
+            }
+        }
+        [Authorize]
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct([FromForm] AddNewProduct_RequestModal request)
+        {
+            if (!ModelState.IsValid || request.Images == null || !request.Images.Any())
+                return BadRequest("Product data or images are missing.");
+
+            try
+            {
+                var productId = await _productServices.AddProductAsync(request);
+                return Ok(new { Message = "Product added successfully.", ProductId = productId });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Failed to add product.", Error = ex.Message });
             }
         }
 
